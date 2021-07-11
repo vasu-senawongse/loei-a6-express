@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  loei-a6-express:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: nodejs
+    container_name: loei-a6-express
+    restart: unless-stopped
+    ports:
+      - '5000:5000'
+    links:
+      - mongodb
+    volumes:
+      - .:/app
+    command: nodemon --watch . --exec "node" index.js
+
+  mongodb:
+    container_name: loei-a6-db
+    restart: always
+    image: mongo
+    volumes:
+      - dbdata:/data/db
+    ports:
+      - '27017:27017'
+volumes:
+  dbdata:
+
+networks:
+  default:
+    external:
+      name: default-net
