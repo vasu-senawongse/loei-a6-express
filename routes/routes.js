@@ -1,4 +1,6 @@
 const BaseController = require('./../controllers/BaseController');
+const District = require('./routes/districts');
+const Attraction = require('./routes/attractions');
 const multer = require('multer');
 
 const storage = multer.diskStorage({
@@ -26,4 +28,7 @@ module.exports = (app) => {
       res.send(400);
     }
   });
+
+  District(app);
+  Attraction(app);
 };
