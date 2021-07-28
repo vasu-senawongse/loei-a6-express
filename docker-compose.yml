@@ -10,8 +10,6 @@ services:
     restart: unless-stopped
     ports:
       - '5000:5000'
-    links:
-      - mongodb
     volumes:
       - .:/app
     command: nodemon --watch . --exec "node" index.js
