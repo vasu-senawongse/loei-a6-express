@@ -8,6 +8,45 @@ module.exports = {
     }
   },
 
+  async getAttractionById(req, res) {
+    try {
+      const { id } = req.params;
+      const result = await sql.query('SELECT * FROM attractions WHERE id = ?', [
+        id,
+      ]);
+      res.json(result[0]);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  async updateAttractionById(req, res) {
+    try {
+      const payload = req.body;
+      const result = await sql.query(
+        'UPDATE attractions SET name = ?, category = ?, district = ?, lat = ?, lon = ?, physical = ?, history = ?, nature = ?, culture = ?, updatedAt = ?, org = ?, phone = ? WHERE id = ?',
+        [
+          payload.name,
+          payload.category,
+          payload.district,
+          payload.lat,
+          payload.lon,
+          payload.physical,
+          payload.history,
+          payload.nature,
+          payload.culture,
+          payload.updatedAt,
+          payload.org,
+          payload.phone,
+          payload.id,
+        ]
+      );
+      res.json(result);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
   async getAttractionsByFilter(req, res) {
     try {
       const { district, category, name } = req.query;

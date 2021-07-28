@@ -7,6 +7,7 @@ var db = {
   password: process.env.DB_PASS,
   database: process.env.DB_NAME,
   port: process.env.DB_PORT,
+  insecureAuth: true,
 };
 
 const sql = mysql.createPool(db);

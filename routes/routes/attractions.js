@@ -5,4 +5,12 @@ module.exports = (app) => {
     '/attractions/get-attractions-by-filter',
     AttractionController.getAttractionsByFilter
   );
+  app.get(
+    '/attractions/get-attraction-by-id/:id',
+    AttractionController.getAttractionById
+  );
+  app.post(
+    '/attractions/update-attraction-by-id',
+    AttractionController.updateAttractionById
+  );
 };
