@@ -10,6 +10,10 @@ module.exports = (app) => {
     AttractionController.getAttractionById
   );
   app.post(
+    '/attractions/create-attraction',
+    AttractionController.createAttraction
+  );
+  app.post(
     '/attractions/update-attraction-by-id',
     AttractionController.updateAttractionById
   );

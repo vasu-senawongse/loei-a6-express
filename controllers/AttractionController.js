@@ -20,6 +20,34 @@ module.exports = {
     }
   },
 
+  async createAttraction(req, res) {
+    try {
+      const payload = req.body;
+      const result = await sql.query(
+        'INSERT INTO attractions (id,name,category,district,subDistrict,lat,lon,physical,history,nature,culture,updatedAt,createdAt,org,phone) VALUES (0,?,?,?,null,?,?,?,?,?,?,?,?,?,?)',
+        [
+          payload.name,
+          payload.category,
+          payload.district,
+          payload.lat,
+          payload.lon,
+          payload.physical,
+          payload.history,
+          payload.nature,
+          payload.culture,
+          payload.updatedAt,
+          payload.createdAt,
+          payload.org,
+          payload.phone,
+          payload.id,
+        ]
+      );
+      res.json(result);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
   async updateAttractionById(req, res) {
     try {
       const payload = req.body;
