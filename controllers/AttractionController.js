@@ -24,11 +24,12 @@ module.exports = {
     try {
       const payload = req.body;
       const result = await sql.query(
-        'INSERT INTO attractions (id,name,category,district,subDistrict,lat,lon,physical,history,nature,culture,updatedAt,createdAt,org,phone) VALUES (0,?,?,?,null,?,?,?,?,?,?,?,?,?,?)',
+        'INSERT INTO attractions (id,name,category,district,subDistrict,lat,lon,physical,history,nature,culture,updatedAt,createdAt,org,phone) VALUES (0,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
         [
           payload.name,
           payload.category,
           payload.district,
+          payload.subDistrict,
           payload.lat,
           payload.lon,
           payload.physical,
@@ -52,11 +53,12 @@ module.exports = {
     try {
       const payload = req.body;
       const result = await sql.query(
-        'UPDATE attractions SET name = ?, category = ?, district = ?, lat = ?, lon = ?, physical = ?, history = ?, nature = ?, culture = ?, updatedAt = ?, org = ?, phone = ? WHERE id = ?',
+        'UPDATE attractions SET name = ?, category = ?, district = ?, subDistrict = ?, lat = ?, lon = ?, physical = ?, history = ?, nature = ?, culture = ?, updatedAt = ?, org = ?, phone = ? WHERE id = ?',
         [
           payload.name,
           payload.category,
           payload.district,
+          payload.subDistrict,
           payload.lat,
           payload.lon,
           payload.physical,
