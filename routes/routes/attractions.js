@@ -5,8 +5,4 @@ module.exports = (app) => {
     '/attractions/get-attractions-by-filter',
     AttractionController.getAttractionsByFilter
   );
-  app.post(
-    '/attractions/create-attraction',
-    AttractionController.createAttraction
-  );
 };

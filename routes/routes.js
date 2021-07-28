@@ -1,5 +1,4 @@
 const BaseController = require('./../controllers/BaseController');
-const District = require('./routes/districts');
 const Attraction = require('./routes/attractions');
 const multer = require('multer');
 
@@ -29,6 +28,5 @@ module.exports = (app) => {
     }
   });
 
-  District(app);
   Attraction(app);
 };

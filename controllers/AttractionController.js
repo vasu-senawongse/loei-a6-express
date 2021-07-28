@@ -1,20 +1,8 @@
-const Attraction = require('../models/attractions');
 module.exports = {
-  async createAttraction(req, res) {
-    try {
-      const payload = req.body;
-      const attraction = new Attraction(payload);
-      await attraction.save();
-      res.status(201).send('Success!');
-    } catch (error) {
-      console.log(error);
-    }
-  },
-
   async getAttractions(req, res) {
     try {
-      const attractions = await Attraction.find();
-      res.json(attractions);
+      const result = await sql.query('SELECT * FROM attractions');
+      res.json(result);
     } catch (error) {
       console.log(error);
     }
@@ -22,10 +10,15 @@ module.exports = {
 
   async getAttractionsByFilter(req, res) {
     try {
-      const { district } = req.query;
+      const { district, category, name } = req.query;
       var attractions = [];
-      if (district == 'ทุกอำเภอ') attractions = await Attraction.find();
-      else attractions = await Attraction.find({ district: district });
+      if (district == 'ทุกอำเภอ')
+        attractions = await sql.query('SELECT * FROM attractions');
+      else
+        attractions = await sql.query(
+          'SELECT * FROM attractions WHERE district LIKE "%"?"%" AND category LIKE "%"?"%" AND name LIKE "%"?"%"',
+          [district, category, name]
+        );
       res.json(attractions);
     } catch (error) {
       console.log(error);
