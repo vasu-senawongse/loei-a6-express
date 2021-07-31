@@ -22,7 +22,7 @@ module.exports = (app) => {
     next();
   });
   app.get('/', BaseController.index);
-  app.post('/upload', upload.single('file'), (req, res) => {
+  app.post('/upload', upload.array('file'), (req, res) => {
     try {
       res.send(req.file);
     } catch (err) {
