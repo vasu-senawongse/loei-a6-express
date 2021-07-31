@@ -20,6 +20,19 @@ module.exports = {
     }
   },
 
+
+  async getAttractionByName(req, res) {
+    try {
+      const { name } = req.params;
+      const result = await sql.query('SELECT * FROM attractions WHERE name = ?', [
+        name,
+      ]);
+      res.json(result[0]);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
   async createAttraction(req, res) {
     try {
       const payload = req.body;

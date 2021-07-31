@@ -9,6 +9,11 @@ module.exports = (app) => {
     '/attractions/get-attraction-by-id/:id',
     AttractionController.getAttractionById
   );
+
+  app.get(
+    '/attractions/get-attraction-by-name/:name',
+    AttractionController.getAttractionByName
+  );
   app.post(
     '/attractions/create-attraction',
     AttractionController.createAttraction
