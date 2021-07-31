@@ -1,3 +1,7 @@
+const path = require('path');
+const fs = require('fs');
+
+
 module.exports = {
   async getAttractions(req, res) {
     try {
@@ -19,6 +23,25 @@ module.exports = {
       console.log(error);
     }
   },
+
+  async getAttractionGalleryById(req, res) {
+    try {
+      const { id } = req.params;
+      fs.readdir(
+        path.resolve(__dirname, `../public/images/attractions/${id}/`),
+        (err, files) => {
+          if (err) throw err;
+          
+          for (let file of files) {
+            console.log(file);
+          }
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
 
 
   async getAttractionByName(req, res) {

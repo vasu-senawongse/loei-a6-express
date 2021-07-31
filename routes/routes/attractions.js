@@ -14,6 +14,12 @@ module.exports = (app) => {
     '/attractions/get-attraction-by-name/:name',
     AttractionController.getAttractionByName
   );
+
+  
+  app.get(
+    '/attractions/get-attraction-gallery-by-id',
+    AttractionController.getAttractionGalleryById
+  );
   app.post(
     '/attractions/create-attraction',
     AttractionController.createAttraction
