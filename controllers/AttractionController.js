@@ -27,7 +27,7 @@ module.exports = {
   async getAttractionGalleryById(req, res) {
     try {
       const { id } = req.params;
-      const result = await sql.query('SELECT * FROM galleries WHERE attraction = ? ORDER BY order', [
+      const result = await sql.query('SELECT * FROM galleries WHERE attraction = ? ORDER BY img_order,id', [
         id,
       ]);
       res.json(result);
@@ -133,4 +133,32 @@ module.exports = {
       console.log(error);
     }
   },
+
+
+  // async uploadAttractionImage(req, res) {
+  //   try {
+  //     const multer = require('multer');
+  //     const fs = require('fs');
+      
+  //     const storage = multer.diskStorage({
+  //       destination: (req, file, cb) => {
+  //         fs.mkdirSync(req.body.path, { recursive: true })
+  //         cb(null, req.body.path);
+  //       },
+  //       filename: (req, file, cb) => {
+  //         cb(null, req.body.name);
+  //       },
+  //     });
+
+  //     forEach(i=>{
+  //       upload.array('file')
+  //     })
+
+  //     const upload = multer({ storage });
+
+  //     res.json(result[0]);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // },
 };
