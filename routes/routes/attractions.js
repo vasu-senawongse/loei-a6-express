@@ -17,7 +17,7 @@ module.exports = (app) => {
 
   
   app.get(
-    '/attractions/get-attraction-gallery-by-id',
+    '/attractions/get-attraction-gallery-by-id/:id',
     AttractionController.getAttractionGalleryById
   );
   app.post(
