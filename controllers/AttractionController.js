@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const { NativeError } = require('mongoose');
 
 
 module.exports = {
@@ -51,6 +52,7 @@ module.exports = {
   async getAttractionByName(req, res) {
     try {
       const { name } = req.params;
+      name.replace('-',' ')
       const result = await sql.query('SELECT * FROM attractions WHERE name = ?', [
         name,
       ]);
