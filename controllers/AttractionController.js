@@ -27,16 +27,10 @@ module.exports = {
   async getAttractionGalleryById(req, res) {
     try {
       const { id } = req.params;
-      fs.readdir(
-        path.resolve(__dirname, `../public/images/attractions/${id}/`),
-        (err, files) => {
-          if (err) throw err;
-          
-          for (let file of files) {
-            console.log(file);
-          }
-        }
-      );
+      const result = await sql.query('SELECT * FROM galleries WHERE attraction = ? ORDER BY order,id', [
+        id,
+      ]);
+      res.json(result);
     } catch (error) {
       console.log(error);
     }
