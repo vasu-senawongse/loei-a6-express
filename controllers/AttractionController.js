@@ -27,7 +27,7 @@ module.exports = {
   async getAttractionGalleryById(req, res) {
     try {
       const { id } = req.params;
-      const result = await sql.query('SELECT * FROM galleries WHERE attraction = ? ORDER BY order', [
+      const result = await sql.query('SELECT * FROM galleries WHERE attraction = ?', [
         id,
       ]);
       res.json(result);
