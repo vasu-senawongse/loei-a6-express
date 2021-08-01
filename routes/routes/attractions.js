@@ -5,6 +5,11 @@ module.exports = (app) => {
     '/attractions/get-attractions-by-filter',
     AttractionController.getAttractionsByFilter
   );
+
+  app.get(
+    '/attractions/get-attraction-next-id',
+    AttractionController.getAttractionNextId
+  );
   app.get(
     '/attractions/get-attraction-by-id/:id',
     AttractionController.getAttractionById
@@ -27,5 +32,20 @@ module.exports = (app) => {
   app.post(
     '/attractions/update-attraction-by-id',
     AttractionController.updateAttractionById
+  );
+
+  app.delete(
+    '/attractions/delete-attraction-image',
+    AttractionController.deleteAttractionImage
+  );
+
+  app.post(
+    '/attractions/insert-attraction-image',
+    AttractionController.insertAttractionImage
+  );
+
+  app.post(
+    '/attractions/select-attraction-thumbnail',
+    AttractionController.selectAttractionThumbnail
   );
 };

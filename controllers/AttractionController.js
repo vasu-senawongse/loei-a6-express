@@ -12,6 +12,16 @@ module.exports = {
     }
   },
 
+  async getAttractionNextId(req, res) {
+    try {
+      const result = await sql.query('SELECT * FROM attractions ORDER BY id DESC LIMIT 1');
+      res.json(result[0].id + 1);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+
   async getAttractionById(req, res) {
     try {
       const { id } = req.params;
@@ -54,10 +64,11 @@ module.exports = {
     try {
       const payload = req.body;
       const result = await sql.query(
-        'INSERT INTO attractions (id,img,name,category,district,subDistrict,lat,lon,physical,history,nature,culture,attraction,accessibility,accommodation,month,updatedAt,createdAt,org,phone) VALUES (0,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+        'INSERT INTO attractions (id,name,img,category,district,subDistrict,lat,lon,physical,history,nature,culture,attraction,accessibility,accommodation,month,updatedAt,createdAt,org,phone) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
         [
-          payload.img,
+          payload.id,
           payload.name,
+          payload.img,
           payload.category,
           payload.district,
           payload.subDistrict,
@@ -75,9 +86,18 @@ module.exports = {
           payload.createdAt,
           payload.org,
           payload.phone,
-          payload.id,
         ]
       );
+if(payload.img != null){
+      const gallery = await sql.query(
+        'INSERT INTO galleries (id,img,attraction,img_order) VALUES (0,?,?,?)',
+        [
+          payload.img,
+          payload.id,
+          1,
+        ]
+      );
+}
       res.json(result);
     } catch (error) {
       console.log(error);
@@ -88,10 +108,9 @@ module.exports = {
     try {
       const payload = req.body;
       const result = await sql.query(
-        'UPDATE attractions SET name = ?, img = ?, category = ?, district = ?, subDistrict = ?, lat = ?, lon = ?, physical = ?, history = ?, nature = ?, culture = ?, attraction = ?, accessibility = ?, accommodation = ?, month = ?, updatedAt = ?, org = ?, phone = ? WHERE id = ?',
+        'UPDATE attractions SET name = ?, category = ?, district = ?, subDistrict = ?, lat = ?, lon = ?, physical = ?, history = ?, nature = ?, culture = ?, attraction = ?, accessibility = ?, accommodation = ?, month = ?, updatedAt = ?, org = ?, phone = ? WHERE id = ?',
         [
           payload.name,
-          payload.img,
           payload.category,
           payload.district,
           payload.subDistrict,
@@ -134,31 +153,54 @@ module.exports = {
     }
   },
 
+  async deleteAttractionImage(req, res) {
+    try {
+      const payload = req.body;
+      if (fs.existsSync('public/images/' + payload.img)) {
+        fs.unlinkSync('public/images/' + payload.img);
+      }
+      await sql.query(
+        'DELETE FROM galleries WHERE id = ?',
+        [payload.id]
+      );
+      console.log(payload)
+      res.status(200).send('IMG DELETED');
+    } catch (error) {
+      console.log(error);
+    }
+  },
 
-  // async uploadAttractionImage(req, res) {
-  //   try {
-  //     const multer = require('multer');
-  //     const fs = require('fs');
-      
-  //     const storage = multer.diskStorage({
-  //       destination: (req, file, cb) => {
-  //         fs.mkdirSync(req.body.path, { recursive: true })
-  //         cb(null, req.body.path);
-  //       },
-  //       filename: (req, file, cb) => {
-  //         cb(null, req.body.name);
-  //       },
-  //     });
+  async selectAttractionThumbnail(req, res) {
+    try {
+      const payload = req.body;
+      const result = await sql.query(
+        'UPDATE attractions SET img = ? WHERE id = ?',
+        [
+          payload.img,
+          payload.id,
+        ]
+      );
+      res.json(result);
+    } catch (error) {
+      console.log(error);
+    }
+  },
 
-  //     forEach(i=>{
-  //       upload.array('file')
-  //     })
 
-  //     const upload = multer({ storage });
-
-  //     res.json(result[0]);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // },
+  async insertAttractionImage(req, res) {
+    try {
+      const payload = req.body;
+      const result = await sql.query(
+        'INSERT INTO galleries (id,img,attraction,img_order) VALUES (0,?,?,?)',
+        [
+          payload.img,
+          payload.attraction,
+          payload.order,
+        ]
+      );
+      res.json(result);
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };
