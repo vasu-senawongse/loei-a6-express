@@ -1,5 +1,7 @@
 const BaseController = require('./../controllers/BaseController');
 const Attraction = require('./routes/attractions');
+const Amenity = require('./routes/amenities');
+const Activity = require('./routes/activities');
 const multer = require('multer');
 const fs = require('fs');
 
@@ -31,4 +33,6 @@ module.exports = (app) => {
   });
 
   Attraction(app);
+  Amenity(app);
+  Activity(app);
 };

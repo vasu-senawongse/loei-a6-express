@@ -1,7 +1,4 @@
-const path = require('path');
 const fs = require('fs');
-const { NativeError } = require('mongoose');
-
 
 module.exports = {
   async getAttractions(req, res) {
@@ -70,7 +67,7 @@ module.exports = {
     try {
       const payload = req.body;
       const result = await sql.query(
-        'INSERT INTO attractions (id,name,img,category,district,subDistrict,lat,lon,physical,history,nature,culture,attraction,accessibility,accommodation,month,updatedAt,createdAt,org,phone) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+        'INSERT INTO attractions (id,name,img,category,district,subDistrict,lat,lon,physical,history,nature,culture,attraction,accessibility,accommodation,activities,amenities,month,updatedAt,createdAt,org,phone) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
         [
           payload.id,
           payload.name,
@@ -87,6 +84,8 @@ module.exports = {
           payload.attraction,
           payload.accessibility,
           payload.accommodation,
+          payload.activities,
+          payload.amenities,
           payload.month,
           payload.updatedAt,
           payload.createdAt,
@@ -114,7 +113,7 @@ if(payload.img != null){
     try {
       const payload = req.body;
       const result = await sql.query(
-        'UPDATE attractions SET name = ?, category = ?, district = ?, subDistrict = ?, lat = ?, lon = ?, physical = ?, history = ?, nature = ?, culture = ?, attraction = ?, accessibility = ?, accommodation = ?, month = ?, updatedAt = ?, org = ?, phone = ? WHERE id = ?',
+        'UPDATE attractions SET name = ?, category = ?, district = ?, subDistrict = ?, lat = ?, lon = ?, physical = ?, history = ?, nature = ?, culture = ?, attraction = ?, accessibility = ?, accommodation = ?, activities = ?, amenities = ?, month = ?, updatedAt = ?, org = ?, phone = ? WHERE id = ?',
         [
           payload.name,
           payload.category,
@@ -129,6 +128,8 @@ if(payload.img != null){
           payload.attraction,
           payload.accessibility,
           payload.accommodation,
+          payload.activities,
+          payload.amenities,
           payload.month,
           payload.updatedAt,
           payload.org,
