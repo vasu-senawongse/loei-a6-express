@@ -56,6 +56,8 @@ module.exports = {
       const result = await sql.query('SELECT * FROM attractions WHERE name = ?', [
         name,
       ]);
+      console.log(name)
+      console.log(result[0])
       res.json(result[0]);
     } catch (error) {
       console.log(error);
