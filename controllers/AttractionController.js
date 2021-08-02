@@ -147,9 +147,6 @@ if(payload.img != null){
     try {
       const { district, category, name } = req.query;
       var attractions = [];
-      if (district == 'ทุกอำเภอ')
-        attractions = await sql.query('SELECT * FROM attractions');
-      else
         attractions = await sql.query(
           'SELECT * FROM attractions WHERE district LIKE "%"?"%" AND category LIKE "%"?"%" AND name LIKE "%"?"%"',
           [district, category, name]
