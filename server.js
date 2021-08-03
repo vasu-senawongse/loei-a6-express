@@ -1,7 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 const cors = require('cors');
-
 sql = require('./config/connection');
 require('dotenv').config();
 var app = express();

@@ -29,6 +29,14 @@ module.exports = {
           'SELECT * FROM hotels WHERE district LIKE "%"?"%" AND name LIKE "%"?"%"',
           [district, name]
         );
+
+        await sql.query(
+          'INSERT INTO search_logs (id,type,name,district,category,searchAt) VALUES (0,"ที่พัก",?,?,null,CONVERT_TZ(NOW(),"SYSTEM","Asia/Bangkok"))',
+          [
+            name != '' ? name : null,
+            district  != '' ? district : null,
+          ]
+        );
       res.json(hotels);
     } catch (error) {
       console.log(error);

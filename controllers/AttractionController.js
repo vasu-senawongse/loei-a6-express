@@ -56,6 +56,13 @@ module.exports = {
       if(result.length == 0){
         res.status(404).send('ATTRACTION NOT FOUND!')
       }else{
+       await sql.query(
+          'UPDATE attractions SET view = ? WHERE id = ?',
+          [
+            result[0].view +=1,
+            result[0].id,
+          ]
+        );
         res.json(result[0]);
       }
     } catch (error) {
@@ -67,7 +74,7 @@ module.exports = {
     try {
       const payload = req.body;
       const result = await sql.query(
-        'INSERT INTO attractions (id,name,img,category,district,subDistrict,lat,lon,physical,history,nature,culture,attraction,accessibility,accommodation,activities,amenities,month,updatedAt,createdAt,org,phone) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+        'INSERT INTO attractions (id,name,img,category,district,subDistrict,lat,lon,physical,history,nature,culture,attraction,accessibility,accommodation,activities,amenities,month,updatedAt,createdAt,org,phone,view) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,0)',
         [
           payload.id,
           payload.name,
@@ -150,6 +157,14 @@ if(payload.img != null){
         attractions = await sql.query(
           'SELECT * FROM attractions WHERE district LIKE "%"?"%" AND category LIKE "%"?"%" AND name LIKE "%"?"%"',
           [district, category, name]
+        );
+        await sql.query(
+          'INSERT INTO search_logs (id,type,name,district,category,searchAt) VALUES (0,"แหล่งท่องเที่ยว",?,?,?,CONVERT_TZ(NOW(),"SYSTEM","Asia/Bangkok"))',
+          [
+            name != '' ? name : null,
+            district  != '' ? district : null,
+            category  != '' ? category : null,
+          ]
         );
       res.json(attractions);
     } catch (error) {

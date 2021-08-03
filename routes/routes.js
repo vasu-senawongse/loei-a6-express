@@ -26,6 +26,10 @@ module.exports = (app) => {
     next();
   });
   app.get('/', BaseController.index);
+  app.get('/get-system-overview', BaseController.getSystemOverview);
+  app.get('/get-top-attraction', BaseController.getTopAttraction);
+  app.get('/get-top-search', BaseController.getTopSearch);
+  app.get('/get-top-search-date', BaseController.getTopSearchDate);
   app.post('/upload', upload.array('file'), (req, res) => {
     try {
       res.send(req.file);
