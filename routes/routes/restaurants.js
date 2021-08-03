@@ -20,5 +20,8 @@ module.exports = (app) => {
     '/restaurants/update-restaurant-by-id',
     RestaurantController.updateRestaurantById
   );
-
+  app.delete(
+    '/restaurants/delete-restaurant',
+    RestaurantController.deleteRestaurant
+  );
 };

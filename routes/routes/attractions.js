@@ -48,4 +48,9 @@ module.exports = (app) => {
     '/attractions/select-attraction-thumbnail',
     AttractionController.selectAttractionThumbnail
   );
+
+  app.delete(
+    '/attractions/delete-attraction',
+    AttractionController.deleteAttraction
+  );
 };

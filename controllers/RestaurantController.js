@@ -86,4 +86,19 @@ module.exports = {
       console.log(error);
     }
   },
+
+  async deleteRestaurant(req, res) {
+    try {
+      const payload = req.body;
+      const result = await sql.query(
+        'DELETE FROM restaurants WHERE id = ?',
+        [
+          payload.id,
+        ]
+      );
+      res.json(result);
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };

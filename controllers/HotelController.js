@@ -89,4 +89,20 @@ module.exports = {
       console.log(error);
     }
   },
+
+
+  async deleteHotel(req, res) {
+    try {
+      const payload = req.body;
+      const result = await sql.query(
+        'DELETE FROM hotels WHERE id = ?',
+        [
+          payload.id,
+        ]
+      );
+      res.json(result);
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };

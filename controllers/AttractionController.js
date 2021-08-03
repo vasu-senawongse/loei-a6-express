@@ -222,4 +222,27 @@ if(payload.img != null){
       console.log(error);
     }
   },
+
+  async deleteAttraction(req, res) {
+    try {
+      const payload = req.body;
+      const result = await sql.query(
+        'DELETE FROM attractions WHERE id = ?',
+        [
+          payload.id,
+        ]
+      );
+
+      await sql.query(
+        'DELETE FROM galleries WHERE attraction = ?',
+        [
+          payload.id,
+        ]
+      );
+      fs.rmSync('public/images/attractions/'+payload.id, { recursive: true });
+      res.json(result);
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };

@@ -20,5 +20,8 @@ module.exports = (app) => {
     '/hotels/update-hotel-by-id',
     HotelController.updateHotelById
   );
-
+  app.delete(
+    '/hotels/delete-hotel',
+    HotelController.deleteHotel
+  );
 };
