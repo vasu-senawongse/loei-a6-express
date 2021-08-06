@@ -20,7 +20,6 @@ module.exports = (app) => {
     AttractionController.getAttractionByName
   );
 
-  
   app.get(
     '/attractions/get-attraction-gallery-by-id/:id',
     AttractionController.getAttractionGalleryById
@@ -53,4 +52,6 @@ module.exports = (app) => {
     '/attractions/delete-attraction',
     AttractionController.deleteAttraction
   );
+
+  app.get('/attractions/export', AttractionController.export);
 };

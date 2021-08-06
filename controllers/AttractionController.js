@@ -1,3 +1,4 @@
+const ObjectsToCsv = require('objects-to-csv');
 const fs = require('fs');
 
 module.exports = {
@@ -12,13 +13,14 @@ module.exports = {
 
   async getAttractionNextId(req, res) {
     try {
-      const result = await sql.query('SELECT * FROM attractions ORDER BY id DESC LIMIT 1');
+      const result = await sql.query(
+        'SELECT * FROM attractions ORDER BY id DESC LIMIT 1'
+      );
       res.json(result[0].id + 1);
     } catch (error) {
       console.log(error);
     }
   },
-
 
   async getAttractionById(req, res) {
     try {
@@ -35,34 +37,31 @@ module.exports = {
   async getAttractionGalleryById(req, res) {
     try {
       const { id } = req.params;
-      const result = await sql.query('SELECT * FROM galleries WHERE attraction = ? ORDER BY img_order,id', [
-        id,
-      ]);
+      const result = await sql.query(
+        'SELECT * FROM galleries WHERE attraction = ? ORDER BY img_order,id',
+        [id]
+      );
       res.json(result);
     } catch (error) {
       console.log(error);
     }
   },
 
-
-
   async getAttractionByName(req, res) {
     try {
       var { name } = req.params;
-      name = name.replace('-',' ')
-      const result = await sql.query('SELECT * FROM attractions WHERE name = ?', [
-        name,
-      ]);
-      if(result.length == 0){
-        res.status(404).send('ATTRACTION NOT FOUND!')
-      }else{
-       await sql.query(
-          'UPDATE attractions SET view = ? WHERE id = ?',
-          [
-            result[0].view +=1,
-            result[0].id,
-          ]
-        );
+      name = name.replace('-', ' ');
+      const result = await sql.query(
+        'SELECT * FROM attractions WHERE name = ?',
+        [name]
+      );
+      if (result.length == 0) {
+        res.status(404).send('ATTRACTION NOT FOUND!');
+      } else {
+        await sql.query('UPDATE attractions SET view = ? WHERE id = ?', [
+          (result[0].view += 1),
+          result[0].id,
+        ]);
         res.json(result[0]);
       }
     } catch (error) {
@@ -100,16 +99,12 @@ module.exports = {
           payload.phone,
         ]
       );
-if(payload.img != null){
-      const gallery = await sql.query(
-        'INSERT INTO galleries (id,img,attraction,img_order) VALUES (0,?,?,?)',
-        [
-          payload.img,
-          payload.id,
-          1,
-        ]
-      );
-}
+      if (payload.img != null) {
+        const gallery = await sql.query(
+          'INSERT INTO galleries (id,img,attraction,img_order) VALUES (0,?,?,?)',
+          [payload.img, payload.id, 1]
+        );
+      }
       res.json(result);
     } catch (error) {
       console.log(error);
@@ -154,18 +149,18 @@ if(payload.img != null){
     try {
       const { district, category, name } = req.query;
       var attractions = [];
-        attractions = await sql.query(
-          'SELECT * FROM attractions WHERE district LIKE "%"?"%" AND category LIKE "%"?"%" AND name LIKE "%"?"%"',
-          [district, category, name]
-        );
-        await sql.query(
-          'INSERT INTO search_logs (id,type,name,district,category,searchAt) VALUES (0,"แหล่งท่องเที่ยว",?,?,?,CONVERT_TZ(NOW(),"SYSTEM","Asia/Bangkok"))',
-          [
-            name != '' ? name : null,
-            district  != '' ? district : null,
-            category  != '' ? category : null,
-          ]
-        );
+      attractions = await sql.query(
+        'SELECT * FROM attractions WHERE district LIKE "%"?"%" AND category LIKE "%"?"%" AND name LIKE "%"?"%"',
+        [district, category, name]
+      );
+      await sql.query(
+        'INSERT INTO search_logs (id,type,name,district,category,searchAt) VALUES (0,"แหล่งท่องเที่ยว",?,?,?,CONVERT_TZ(NOW(),"SYSTEM","Asia/Bangkok"))',
+        [
+          name != '' ? name : null,
+          district != '' ? district : null,
+          category != '' ? category : null,
+        ]
+      );
       res.json(attractions);
     } catch (error) {
       console.log(error);
@@ -178,11 +173,8 @@ if(payload.img != null){
       if (fs.existsSync('public/images/' + payload.img)) {
         fs.unlinkSync('public/images/' + payload.img);
       }
-      await sql.query(
-        'DELETE FROM galleries WHERE id = ?',
-        [payload.id]
-      );
-      console.log(payload)
+      await sql.query('DELETE FROM galleries WHERE id = ?', [payload.id]);
+      console.log(payload);
       res.status(200).send('IMG DELETED');
     } catch (error) {
       console.log(error);
@@ -194,10 +186,7 @@ if(payload.img != null){
       const payload = req.body;
       const result = await sql.query(
         'UPDATE attractions SET img = ? WHERE id = ?',
-        [
-          payload.img,
-          payload.id,
-        ]
+        [payload.img, payload.id]
       );
       res.json(result);
     } catch (error) {
@@ -205,17 +194,12 @@ if(payload.img != null){
     }
   },
 
-
   async insertAttractionImage(req, res) {
     try {
       const payload = req.body;
       const result = await sql.query(
         'INSERT INTO galleries (id,img,attraction,img_order) VALUES (0,?,?,?)',
-        [
-          payload.img,
-          payload.attraction,
-          payload.order,
-        ]
+        [payload.img, payload.attraction, payload.order]
       );
       res.json(result);
     } catch (error) {
@@ -226,21 +210,26 @@ if(payload.img != null){
   async deleteAttraction(req, res) {
     try {
       const payload = req.body;
-      const result = await sql.query(
-        'DELETE FROM attractions WHERE id = ?',
-        [
-          payload.id,
-        ]
-      );
+      const result = await sql.query('DELETE FROM attractions WHERE id = ?', [
+        payload.id,
+      ]);
 
-      await sql.query(
-        'DELETE FROM galleries WHERE attraction = ?',
-        [
-          payload.id,
-        ]
-      );
-      fs.rmSync('public/images/attractions/'+payload.id, { recursive: true });
+      await sql.query('DELETE FROM galleries WHERE attraction = ?', [
+        payload.id,
+      ]);
+      fs.rmSync('public/images/attractions/' + payload.id, { recursive: true });
       res.json(result);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  async export(req, res) {
+    try {
+      const result = await sql.query('SELECT * FROM attractions');
+      const csv = new ObjectsToCsv(result);
+      await csv.toDisk('./public/export/attractions.csv', { bom: true });
+      res.json(csv);
     } catch (error) {
       console.log(error);
     }
