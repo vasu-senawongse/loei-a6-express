@@ -229,7 +229,7 @@ module.exports = {
       const result = await sql.query('SELECT * FROM attractions');
       const csv = new ObjectsToCsv(result);
       await csv.toDisk('./public/export/attractions.csv', { bom: true });
-      res.json(csv);
+      res.status(200).send('Attraction Exported');
     } catch (error) {
       console.log(error);
     }
