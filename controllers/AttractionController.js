@@ -1,5 +1,6 @@
 const ObjectsToCsv = require('objects-to-csv');
 const fs = require('fs');
+const convertCsvToXlsx = require('@aternus/csv-to-xlsx');
 
 module.exports = {
   async getAttractions(req, res) {
@@ -228,7 +229,16 @@ module.exports = {
     try {
       const result = await sql.query('SELECT * FROM attractions');
       const csv = new ObjectsToCsv(result);
-      await csv.toDisk('./public/export/attractions.csv', { bom: true });
+      await csv.toDisk('public/export/attractions.csv', { bom: true });
+      let source = 'public/export/attractions.csv';
+      if (fs.existsSync('public/export/attractions.xlsx')) {
+        fs.unlinkSync('public/export/attractions.xlsx');
+      }
+      let destination = 'public/export/attractions.xlsx';
+      convertCsvToXlsx(source, destination);
+      if (fs.existsSync('public/export/attractions.csv')) {
+        fs.unlinkSync('public/export/attractions.csv');
+      }
       res.status(200).send('Attraction Exported');
     } catch (error) {
       console.log(error);
