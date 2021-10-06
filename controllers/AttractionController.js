@@ -1,11 +1,20 @@
-const ObjectsToCsv = require('objects-to-csv');
-const fs = require('fs');
-const convertCsvToXlsx = require('@aternus/csv-to-xlsx');
+const ObjectsToCsv = require("objects-to-csv");
+const fs = require("fs");
+const convertCsvToXlsx = require("@aternus/csv-to-xlsx");
 
 module.exports = {
   async getAttractions(req, res) {
     try {
-      const result = await sql.query('SELECT * FROM attractions');
+      const result = await sql.query("SELECT * FROM attractions");
+      res.json(result);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  async getAttractionTypes(req, res) {
+    try {
+      const result = await sql.query("SELECT * FROM attraction_types");
       res.json(result);
     } catch (error) {
       console.log(error);
@@ -15,7 +24,7 @@ module.exports = {
   async getAttractionNextId(req, res) {
     try {
       const result = await sql.query(
-        'SELECT * FROM attractions ORDER BY id DESC LIMIT 1'
+        "SELECT * FROM attractions ORDER BY id DESC LIMIT 1"
       );
       res.json(result[0].id + 1);
     } catch (error) {
@@ -26,7 +35,7 @@ module.exports = {
   async getAttractionById(req, res) {
     try {
       const { id } = req.params;
-      const result = await sql.query('SELECT * FROM attractions WHERE id = ?', [
+      const result = await sql.query("SELECT * FROM attractions WHERE id = ?", [
         id,
       ]);
       res.json(result[0]);
@@ -39,7 +48,7 @@ module.exports = {
     try {
       const { id } = req.params;
       const result = await sql.query(
-        'SELECT * FROM galleries WHERE attraction = ? ORDER BY img_order,id',
+        "SELECT * FROM galleries WHERE attraction = ? ORDER BY img_order,id",
         [id]
       );
       res.json(result);
@@ -51,15 +60,15 @@ module.exports = {
   async getAttractionByName(req, res) {
     try {
       var { name } = req.params;
-      name = name.replace('-', ' ');
+      name = name.replace("-", " ");
       const result = await sql.query(
-        'SELECT * FROM attractions WHERE name = ?',
+        "SELECT * FROM attractions WHERE name = ?",
         [name]
       );
       if (result.length == 0) {
-        res.status(404).send('ATTRACTION NOT FOUND!');
+        res.status(404).send("ATTRACTION NOT FOUND!");
       } else {
-        await sql.query('UPDATE attractions SET view = ? WHERE id = ?', [
+        await sql.query("UPDATE attractions SET view = ? WHERE id = ?", [
           (result[0].view += 1),
           result[0].id,
         ]);
@@ -74,7 +83,7 @@ module.exports = {
     try {
       const payload = req.body;
       const result = await sql.query(
-        'INSERT INTO attractions (id,name,img,category,district,subDistrict,lat,lon,physical,history,nature,culture,attraction,accessibility,accommodation,activities,amenities,month,updatedAt,createdAt,org,phone,view) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,0)',
+        "INSERT INTO attractions (id,name,img,category,district,subDistrict,lat,lon,physical,history,nature,culture,attraction,accessibility,accommodation,activities,amenities,month,updatedAt,createdAt,org,phone,view) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,0)",
         [
           payload.id,
           payload.name,
@@ -102,7 +111,7 @@ module.exports = {
       );
       if (payload.img != null) {
         const gallery = await sql.query(
-          'INSERT INTO galleries (id,img,attraction,img_order) VALUES (0,?,?,?)',
+          "INSERT INTO galleries (id,img,attraction,img_order) VALUES (0,?,?,?)",
           [payload.img, payload.id, 1]
         );
       }
@@ -116,7 +125,7 @@ module.exports = {
     try {
       const payload = req.body;
       const result = await sql.query(
-        'UPDATE attractions SET name = ?, category = ?, district = ?, subDistrict = ?, lat = ?, lon = ?, physical = ?, history = ?, nature = ?, culture = ?, attraction = ?, accessibility = ?, accommodation = ?, activities = ?, amenities = ?, month = ?, updatedAt = ?, org = ?, phone = ? WHERE id = ?',
+        "UPDATE attractions SET name = ?, category = ?, district = ?, subDistrict = ?, lat = ?, lon = ?, physical = ?, history = ?, nature = ?, culture = ?, attraction = ?, accessibility = ?, accommodation = ?, activities = ?, amenities = ?, month = ?, updatedAt = ?, org = ?, phone = ? WHERE id = ?",
         [
           payload.name,
           payload.category,
@@ -157,9 +166,9 @@ module.exports = {
       await sql.query(
         'INSERT INTO search_logs (id,type,name,district,category,searchAt) VALUES (0,"แหล่งท่องเที่ยว",?,?,?,CONVERT_TZ(NOW(),"SYSTEM","Asia/Bangkok"))',
         [
-          name != '' ? name : null,
-          district != '' ? district : null,
-          category != '' ? category : null,
+          name != "" ? name : null,
+          district != "" ? district : null,
+          category != "" ? category : null,
         ]
       );
       res.json(attractions);
@@ -171,12 +180,12 @@ module.exports = {
   async deleteAttractionImage(req, res) {
     try {
       const payload = req.body;
-      if (fs.existsSync('public/images/' + payload.img)) {
-        fs.unlinkSync('public/images/' + payload.img);
+      if (fs.existsSync("public/images/" + payload.img)) {
+        fs.unlinkSync("public/images/" + payload.img);
       }
-      await sql.query('DELETE FROM galleries WHERE id = ?', [payload.id]);
+      await sql.query("DELETE FROM galleries WHERE id = ?", [payload.id]);
       console.log(payload);
-      res.status(200).send('IMG DELETED');
+      res.status(200).send("IMG DELETED");
     } catch (error) {
       console.log(error);
     }
@@ -186,7 +195,7 @@ module.exports = {
     try {
       const payload = req.body;
       const result = await sql.query(
-        'UPDATE attractions SET img = ? WHERE id = ?',
+        "UPDATE attractions SET img = ? WHERE id = ?",
         [payload.img, payload.id]
       );
       res.json(result);
@@ -199,7 +208,7 @@ module.exports = {
     try {
       const payload = req.body;
       const result = await sql.query(
-        'INSERT INTO galleries (id,img,attraction,img_order) VALUES (0,?,?,?)',
+        "INSERT INTO galleries (id,img,attraction,img_order) VALUES (0,?,?,?)",
         [payload.img, payload.attraction, payload.order]
       );
       res.json(result);
@@ -211,14 +220,14 @@ module.exports = {
   async deleteAttraction(req, res) {
     try {
       const payload = req.body;
-      const result = await sql.query('DELETE FROM attractions WHERE id = ?', [
+      const result = await sql.query("DELETE FROM attractions WHERE id = ?", [
         payload.id,
       ]);
 
-      await sql.query('DELETE FROM galleries WHERE attraction = ?', [
+      await sql.query("DELETE FROM galleries WHERE attraction = ?", [
         payload.id,
       ]);
-      fs.rmSync('public/images/attractions/' + payload.id, { recursive: true });
+      fs.rmSync("public/images/attractions/" + payload.id, { recursive: true });
       res.json(result);
     } catch (error) {
       console.log(error);
@@ -227,19 +236,19 @@ module.exports = {
 
   async export(req, res) {
     try {
-      const result = await sql.query('SELECT * FROM attractions');
+      const result = await sql.query("SELECT * FROM attractions");
       const csv = new ObjectsToCsv(result);
-      await csv.toDisk('public/export/attractions.csv', { bom: true });
-      let source = 'public/export/attractions.csv';
-      if (fs.existsSync('public/export/attractions.xlsx')) {
-        fs.unlinkSync('public/export/attractions.xlsx');
+      await csv.toDisk("public/export/attractions.csv", { bom: true });
+      let source = "public/export/attractions.csv";
+      if (fs.existsSync("public/export/attractions.xlsx")) {
+        fs.unlinkSync("public/export/attractions.xlsx");
       }
-      let destination = 'public/export/attractions.xlsx';
+      let destination = "public/export/attractions.xlsx";
       convertCsvToXlsx(source, destination);
-      if (fs.existsSync('public/export/attractions.csv')) {
-        fs.unlinkSync('public/export/attractions.csv');
+      if (fs.existsSync("public/export/attractions.csv")) {
+        fs.unlinkSync("public/export/attractions.csv");
       }
-      res.status(200).send('Attraction Exported');
+      res.status(200).send("Attraction Exported");
     } catch (error) {
       console.log(error);
     }
