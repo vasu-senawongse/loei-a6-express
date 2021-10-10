@@ -83,7 +83,7 @@ module.exports = {
     try {
       const payload = req.body;
       const result = await sql.query(
-        "INSERT INTO attractions (id,name,img,category,district,subDistrict,lat,lon,physical,history,nature,culture,attraction,accessibility,accommodation,activities,amenities,month,updatedAt,createdAt,org,phone,view) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,0)",
+        "INSERT INTO attractions (id,name,img,category,district,subDistrict,lat,lon,physical,history,nature,culture,attraction,accessibility,accommodation,activities,amenities,month,updatedAt,createdAt,org,phone,view,register,geo,eco,biodiversity,myth,festival,creativetourism,storytelling,etc) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,0,?,?,?,?,?,?,?,?,?)",
         [
           payload.id,
           payload.name,
@@ -107,6 +107,15 @@ module.exports = {
           payload.createdAt,
           payload.org,
           payload.phone,
+          payload.register,
+          payload.geo,
+          payload.eco,
+          payload.biodiversity,
+          payload.myth,
+          payload.festival,
+          payload.creativetourism,
+          payload.storytelling,
+          payload.etc,
         ]
       );
       if (payload.img != null) {
@@ -125,7 +134,7 @@ module.exports = {
     try {
       const payload = req.body;
       const result = await sql.query(
-        "UPDATE attractions SET name = ?, category = ?, district = ?, subDistrict = ?, lat = ?, lon = ?, physical = ?, history = ?, nature = ?, culture = ?, attraction = ?, accessibility = ?, accommodation = ?, activities = ?, amenities = ?, month = ?, updatedAt = ?, org = ?, phone = ? WHERE id = ?",
+        "UPDATE attractions SET name = ?, category = ?, district = ?, subDistrict = ?, lat = ?, lon = ?, physical = ?, history = ?, nature = ?, culture = ?, attraction = ?, accessibility = ?, accommodation = ?, activities = ?, amenities = ?, month = ?, updatedAt = ?, org = ?, phone = ?, register = ?, geo = ?, eco = ?, biodiversity = ?, myth = ?, festival = ?, creativetourism = ?, storytelling = ?, etc = ? WHERE id = ?",
         [
           payload.name,
           payload.category,
@@ -147,6 +156,15 @@ module.exports = {
           payload.org,
           payload.phone,
           payload.id,
+          payload.register,
+          payload.geo,
+          payload.eco,
+          payload.biodiversity,
+          payload.myth,
+          payload.festival,
+          payload.creativetourism,
+          payload.storytelling,
+          payload.etc,
         ]
       );
       res.json(result);
