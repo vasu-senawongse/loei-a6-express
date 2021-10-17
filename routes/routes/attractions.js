@@ -47,6 +47,8 @@ module.exports = (app) => {
     AttractionController.insertAttractionImage
   );
 
+  app.post("/attractions/add-options", AttractionController.addOptions);
+
   app.post(
     "/attractions/select-attraction-thumbnail",
     AttractionController.selectAttractionThumbnail

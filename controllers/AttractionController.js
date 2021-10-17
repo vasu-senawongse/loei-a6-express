@@ -79,6 +79,33 @@ module.exports = {
     }
   },
 
+  async addOptions(req, res) {
+    try {
+      const payload = req.body;
+      if (payload.type == "TYPE") {
+        result = await sql.query(
+          "INSERT INTO attraction_types (id,name) VALUES (0,?)",
+          [payload.name]
+        );
+        res.json(result);
+      } else if (payload.type == "AMEN") {
+        result = await sql.query(
+          "INSERT INTO amenities (id,name) VALUES (0,?)",
+          [payload.name]
+        );
+        res.json(result);
+      } else if (payload.type == "ACT") {
+        result = await sql.query(
+          "INSERT INTO activities (id,name) VALUES (0,?)",
+          [payload.name]
+        );
+        res.json(result);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
   async createAttraction(req, res) {
     try {
       const payload = req.body;
