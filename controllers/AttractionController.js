@@ -57,6 +57,32 @@ module.exports = {
     }
   },
 
+  async getAttractionMaterialById(req, res) {
+    try {
+      const { id } = req.params;
+      const result = await sql.query(
+        "SELECT * FROM materials WHERE attraction = ? ORDER BY m_order,id",
+        [id]
+      );
+      res.json(result);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  async getAttractionMaterialById(req, res) {
+    try {
+      const { id } = req.params;
+      const result = await sql.query(
+        "SELECT * FROM materials WHERE attraction = ? ORDER BY m_order,id",
+        [id]
+      );
+      res.json(result);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
   async getAttractionByName(req, res) {
     try {
       var { name } = req.params;
@@ -229,8 +255,20 @@ module.exports = {
         fs.unlinkSync("public/images/" + payload.img);
       }
       await sql.query("DELETE FROM galleries WHERE id = ?", [payload.id]);
-      console.log(payload);
       res.status(200).send("IMG DELETED");
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  async deleteAttractionDocument(req, res) {
+    try {
+      const payload = req.body;
+      if (fs.existsSync("public/images/" + payload.path)) {
+        fs.unlinkSync("public/images/" + payload.path);
+      }
+      await sql.query("DELETE FROM materials WHERE id = ?", [payload.id]);
+      res.status(200).send("MATERIAL DELETED");
     } catch (error) {
       console.log(error);
     }
@@ -255,6 +293,19 @@ module.exports = {
       const result = await sql.query(
         "INSERT INTO galleries (id,img,attraction,img_order) VALUES (0,?,?,?)",
         [payload.img, payload.attraction, payload.order]
+      );
+      res.json(result);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  async insertAttractionDocument(req, res) {
+    try {
+      const payload = req.body;
+      const result = await sql.query(
+        "INSERT INTO materials  (id,file,path,attraction,m_order) VALUES (0,?,?,?,?)",
+        [payload.file, payload.path, payload.attraction, payload.order]
       );
       res.json(result);
     } catch (error) {

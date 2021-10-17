@@ -42,9 +42,24 @@ module.exports = (app) => {
     AttractionController.deleteAttractionImage
   );
 
+  app.delete(
+    "/attractions/delete-attraction-document",
+    AttractionController.deleteAttractionDocument
+  );
+
   app.post(
     "/attractions/insert-attraction-image",
     AttractionController.insertAttractionImage
+  );
+
+  app.post(
+    "/attractions/insert-attraction-document",
+    AttractionController.insertAttractionDocument
+  );
+
+  app.get(
+    "/attractions/get-attraction-material-by-id/:id",
+    AttractionController.getAttractionMaterialById
   );
 
   app.post("/attractions/add-options", AttractionController.addOptions);
