@@ -24,4 +24,11 @@ module.exports = (app) => {
     '/hotels/delete-hotel',
     HotelController.deleteHotel
   );
+
+
+
+  app.post(
+    '/hotels/import-hotel',
+    HotelController.importHotel
+  );
 };

@@ -1,3 +1,5 @@
+const csv = require('csvtojson')
+
 module.exports = {
   async getRestaurants(req, res) {
     try {
@@ -26,16 +28,16 @@ module.exports = {
       const { district, name } = req.query;
       var hotels = [];
       hotels = await sql.query(
-          'SELECT * FROM restaurants WHERE district LIKE "%"?"%" AND name LIKE "%"?"%"',
-          [district, name]
-        );
-        await sql.query(
-          'INSERT INTO search_logs (id,type,name,district,category,searchAt) VALUES (0,"ร้านอาหาร",?,?,null,CONVERT_TZ(NOW(),"SYSTEM","Asia/Bangkok"))',
-          [
-            name != '' ? name : null,
-            district  != '' ? district : null,
-          ]
-        );
+        'SELECT * FROM restaurants WHERE district LIKE "%"?"%" AND name LIKE "%"?"%"',
+        [district, name]
+      );
+      await sql.query(
+        'INSERT INTO search_logs (id,type,name,district,category,searchAt) VALUES (0,"ร้านอาหาร",?,?,null,CONVERT_TZ(NOW(),"SYSTEM","Asia/Bangkok"))',
+        [
+          name != '' ? name : null,
+          district != '' ? district : null,
+        ]
+      );
       res.json(hotels);
     } catch (error) {
       console.log(error);
@@ -97,6 +99,29 @@ module.exports = {
         ]
       );
       res.json(result);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  async importRestaurant(req, res) {
+    try {
+      const json = await csv().fromFile('file.csv');
+      for (var i = 0; i < json.length; i++) {
+        const result = await sql.query(
+          'INSERT INTO restaurants (id,name,district,subDistrict,phone,lat,lon,url) VALUES (0,?,?,?,?,?,?,?)',
+          [
+            json[i].name,
+            'ด่านซ้าย',
+            'ด่านซ้าย',
+            json[i].โทร,
+            json[i].latitude,
+            json[i].longtitude,
+            json[i].FB != '' && json[i].FB != '-' ? json[i].FB : json[i].website
+          ]
+        );
+      }
+      res.send('Success');
     } catch (error) {
       console.log(error);
     }

@@ -11,6 +11,11 @@ module.exports = (app) => {
     RestaurantController.getRestaurantsByFilter
   );
 
+  app.post(
+    '/restaurants/import-restaurant',
+    RestaurantController.importRestaurant
+  );
+
 
   app.post(
     '/restaurants/create-restaurant',
