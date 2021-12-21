@@ -136,7 +136,7 @@ module.exports = {
     try {
       const payload = req.body;
       const result = await sql.query(
-        "INSERT INTO attractions (id,name,img,category,district,subDistrict,lat,lon,physical,history,nature,culture,attraction,accessibility,accommodation,activities,amenities,month,updatedAt,createdAt,org,phone,view,register,geo,eco,biodiversity,myth,festival,creativetourism,storytelling,etc) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,0,?,?,?,?,?,?,?,?,?)",
+        "INSERT INTO attractions (id,name,img,category,district,subDistrict,lat,lon,updatedAt,createdAt,view) VALUES (?,?,?,?,?,?,?,?,?,?,0)",
         [
           payload.id,
           payload.name,
@@ -146,29 +146,8 @@ module.exports = {
           payload.subDistrict,
           payload.lat,
           payload.lon,
-          payload.physical,
-          payload.history,
-          payload.nature,
-          payload.culture,
-          payload.attraction,
-          payload.accessibility,
-          payload.accommodation,
-          payload.activities,
-          payload.amenities,
-          payload.month,
           payload.updatedAt,
           payload.createdAt,
-          payload.org,
-          payload.phone,
-          payload.register,
-          payload.geo,
-          payload.eco,
-          payload.biodiversity,
-          payload.myth,
-          payload.festival,
-          payload.creativetourism,
-          payload.storytelling,
-          payload.etc,
         ]
       );
       if (payload.img != null) {
