@@ -110,18 +110,18 @@ module.exports = {
 
   async importHotel(req, res) {
     try {
-      const json = await csv().fromFile('file.csv');
+      const json = await csv().fromFile('public/import/hotels.csv');
       for (var i = 0; i < json.length; i++) {
         const result = await sql.query(
           'INSERT INTO hotels (id,name,district,subDistrict,phone,lat,lon,url) VALUES (0,?,?,?,?,?,?,?)',
           [
             json[i].name,
-            json[i].dis,
-            json[i].subdis,
-            json[i].tel,
-            json[i].Latitude,
-            json[i].Longitude,
-            json[i].Link
+            json[i].district,
+            json[i].subDistrict,
+            json[i].phone,
+            json[i].latitude,
+            json[i].longitude,
+            json[i].website
           ]
         );
       }

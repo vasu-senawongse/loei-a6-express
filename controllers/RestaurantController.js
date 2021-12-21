@@ -106,18 +106,18 @@ module.exports = {
 
   async importRestaurant(req, res) {
     try {
-      const json = await csv().fromFile('file.csv');
+      const json = await csv().fromFile('public/import/restaurants.csv');
       for (var i = 0; i < json.length; i++) {
         const result = await sql.query(
           'INSERT INTO restaurants (id,name,district,subDistrict,phone,lat,lon,url) VALUES (0,?,?,?,?,?,?,?)',
           [
             json[i].name,
-            'ด่านซ้าย',
-            'ด่านซ้าย',
-            json[i].โทร,
+            json[i].district,
+            json[i].subDistrict,
+            json[i].phone,
             json[i].latitude,
-            json[i].longtitude,
-            json[i].FB != '' && json[i].FB != '-' ? json[i].FB : json[i].website
+            json[i].longitude,
+            json[i].facebook != '' && json[i].facebook != '-' ? json[i].facebook : json[i].website
           ]
         );
       }
