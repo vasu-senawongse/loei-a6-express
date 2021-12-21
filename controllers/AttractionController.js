@@ -208,7 +208,6 @@ module.exports = {
           payload.updatedAt,
           payload.org,
           payload.phone,
-          payload.id,
           payload.register,
           payload.geo,
           payload.eco,
@@ -218,6 +217,7 @@ module.exports = {
           payload.creativetourism,
           payload.storytelling,
           payload.etc,
+          payload.id,
         ]
       );
       res.json(result);
