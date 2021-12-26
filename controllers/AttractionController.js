@@ -132,6 +132,60 @@ module.exports = {
     }
   },
 
+  async editOptions(req, res) {
+    try {
+      const payload = req.body;
+      if (payload.type == "TYPE") {
+        result = await sql.query(
+          "UPDATE attraction_types SET name = ? WHERE id = ?",
+          [payload.id]
+        );
+        res.json(result);
+      } else if (payload.type == "AMEN") {
+        result = await sql.query(
+          "UPDATE amenities SET name = ? WHERE id = ?",
+          [payload.id]
+        );
+        res.json(result);
+      } else if (payload.type == "ACT") {
+        result = await sql.query(
+          "UPDATE activities SET name = ? WHERE id = ?",
+          [payload.name]
+        );
+        res.json(result);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  async deleteOptions(req, res) {
+    try {
+      const payload = req.body;
+      if (payload.type == "TYPE") {
+        result = await sql.query(
+          "DELETE FROM attraction_types WHERE id = ?",
+          [payload.id]
+        );
+        res.json(result);
+      } else if (payload.type == "AMEN") {
+        result = await sql.query(
+          "DELETE FROM amenities WHERE id = ?",
+          [payload.id]
+        );
+        res.json(result);
+      } else if (payload.type == "ACT") {
+        result = await sql.query(
+          "DELETE FROM activities WHERE id = ?",
+          [payload.name]
+        );
+        res.send('Success');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
   async createAttraction(req, res) {
     try {
       const payload = req.body;

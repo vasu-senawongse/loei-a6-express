@@ -64,6 +64,10 @@ module.exports = (app) => {
 
   app.post("/attractions/add-options", AttractionController.addOptions);
 
+  app.post("/attractions/edit-options", AttractionController.editOptions);
+
+  app.delete("/attractions/delete-options", AttractionController.deleteOptions);
+
   app.post(
     "/attractions/select-attraction-thumbnail",
     AttractionController.selectAttractionThumbnail
