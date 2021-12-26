@@ -230,8 +230,10 @@ module.exports = {
   async deleteAttractionImage(req, res) {
     try {
       const payload = req.body;
-      if (fs.existsSync("public/images/" + payload.img)) {
-        fs.unlinkSync("public/images/" + payload.img);
+      if (payload.img) {
+        if (fs.existsSync("public/images/" + payload.img)) {
+          fs.unlinkSync("public/images/" + payload.img);
+        }
       }
       await sql.query("DELETE FROM galleries WHERE id = ?", [payload.id]);
       res.status(200).send("IMG DELETED");
