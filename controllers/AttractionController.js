@@ -177,7 +177,7 @@ module.exports = {
       } else if (payload.type == "ACT") {
         result = await sql.query(
           "DELETE FROM activities WHERE id = ?",
-          [payload.name]
+          [payload.id]
         );
         res.send('Success');
       }
