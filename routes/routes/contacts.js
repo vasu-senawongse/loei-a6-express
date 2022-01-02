@@ -4,5 +4,6 @@ module.exports = (app) => {
   app.get(
     "/contacts/get-pending-contacts",
     ContactController.getPendingContacts
-  );
+  ); +
+    app.post("/contacts/done-task", ContactController.doneTask);
 };
