@@ -6,6 +6,7 @@ const Hotel = require("./routes/hotels");
 const Restaurant = require("./routes/restaurants");
 const Contract = require("./routes/contacts");
 const Auth = require("./routes/auth");
+const Organization = require("./routes/organizations");
 const multer = require("multer");
 const fs = require("fs");
 
@@ -32,8 +33,6 @@ module.exports = (app) => {
   app.get("/get-top-attraction", BaseController.getTopAttraction);
   app.get("/get-top-search", BaseController.getTopSearch);
   app.get("/get-top-search-date", BaseController.getTopSearchDate);
-  app.get("/organizations/get-organizations", BaseController.getOrganizations);
-  app.get("/organizations/delete-organization", BaseController.deleteOrganization);
   app.post("/upload", upload.array("file"), (req, res) => {
     try {
       res.send(req.file);
@@ -48,4 +47,5 @@ module.exports = (app) => {
   Hotel(app);
   Restaurant(app);
   Contract(app);
+  Organization(app);
 };
