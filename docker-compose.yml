@@ -15,7 +15,7 @@ services:
     command: nodemon --watch . --exec "node" index.js
 
   db:
-    image: mysql:5.7
+    image: mysql
     container_name: exp-mysql-db
     restart: always
     environment:
