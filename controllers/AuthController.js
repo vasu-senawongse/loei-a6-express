@@ -1,6 +1,7 @@
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 const config = require('../config/auth');
+const moment = require('moment');
 module.exports = {
     async signup(req, res) {
         try {
@@ -46,7 +47,7 @@ module.exports = {
             var token = jwt.sign({ id: user._id }, config.secret, {
                 expiresIn: 86400, // 24 hours
             });
-            const date = Date.now();
+            const date = moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
             await sql.query(
                 "INSERT INTO login_logs (id,user,date) VALUES (0,?,?)",
                 [
