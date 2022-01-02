@@ -7,6 +7,7 @@ const Restaurant = require("./routes/restaurants");
 const Contract = require("./routes/contacts");
 const Auth = require("./routes/auth");
 const Organization = require("./routes/organizations");
+const User = require("./routes/users");
 const multer = require("multer");
 const fs = require("fs");
 
@@ -31,8 +32,6 @@ module.exports = (app) => {
   app.get("/", BaseController.index);
   app.get("/get-system-overview", BaseController.getSystemOverview);
   app.get("/get-top-attraction", BaseController.getTopAttraction);
-  app.get("/get-top-search", BaseController.getTopSearch);
-  app.get("/get-top-search-date", BaseController.getTopSearchDate);
   app.post("/upload", upload.array("file"), (req, res) => {
     try {
       res.send(req.file);
@@ -48,4 +47,5 @@ module.exports = (app) => {
   Restaurant(app);
   Contract(app);
   Organization(app);
+  User(app)
 };
