@@ -30,6 +30,10 @@ services:
     cap_add:
       - SYS_NICE
 
+volumes:
+  db_data:
+    name: "db_data"
+
 networks:
   default:
     external:
