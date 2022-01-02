@@ -46,11 +46,12 @@ module.exports = {
             var token = jwt.sign({ id: user._id }, config.secret, {
                 expiresIn: 86400, // 24 hours
             });
+            const date = Date.now();
             await sql.query(
                 "INSERT INTO login_logs (id,user,date) VALUES (0,?,?)",
                 [
                     user.id,
-                    new Date.now(),
+                    date,
                 ]
             );
 
