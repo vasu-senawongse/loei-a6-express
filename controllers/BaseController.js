@@ -91,4 +91,23 @@ module.exports = {
       console.log(error);
     }
   },
+
+  async deleteOrganization(req, res) {
+    try {
+      const payload = req.body;
+      const org = await sql.query(
+        "SELECT * FROM organizations WHERE id = ?", [
+        payload.id,
+      ]);
+      if (fs.existsSync("public/images/organizations/" + org[0].img)) {
+        fs.unlinkSync("public/images/organizations/" + org[0].img);
+      }
+      const result = await sql.query("DELETE FROM organizations WHERE id = ?", [
+        payload.id,
+      ]);
+      res.json(result);
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };
