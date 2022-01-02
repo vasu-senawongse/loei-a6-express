@@ -5,6 +5,7 @@ const Activity = require("./routes/activities");
 const Hotel = require("./routes/hotels");
 const Restaurant = require("./routes/restaurants");
 const Contract = require("./routes/contacts");
+const Auth = require("./routes/auth");
 const multer = require("multer");
 const fs = require("fs");
 
@@ -38,7 +39,7 @@ module.exports = (app) => {
       res.send(400);
     }
   });
-
+  Auth(app);
   Attraction(app);
   Amenity(app);
   Activity(app);
