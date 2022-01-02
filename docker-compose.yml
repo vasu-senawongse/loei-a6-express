@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   loei-a6-express:
@@ -9,10 +9,26 @@ services:
     container_name: loei-a6-express
     restart: unless-stopped
     ports:
-      - '5000:5000'
+      - "5000:5000"
     volumes:
       - .:/app
     command: nodemon --watch . --exec "node" index.js
+
+  db:
+    image: mysql
+    container_name: exp-mysql-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: exp1500
+      MYSQL_DATABASE: loeia6_db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: exp1500
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    cap_add:
+      - SYS_NICE
 
 networks:
   default:

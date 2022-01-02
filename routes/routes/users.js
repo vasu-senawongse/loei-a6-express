@@ -1,4 +1,7 @@
-const BaseController = require('../../controllers/BaseController');
+const UserController = require('../../controllers/UserController');
 module.exports = (app) => {
-  app.get('/users/get-users', BaseController.getUsers);
+  app.get('/users/get-users', UserController.getUsers);
+  app.get('/users/get-users', UserController.getUserById);
+  app.post('/users/update-user-by-id', UserController.updateUserById);
+  app.delete('/users/delete-user', UserController.deleteUser);
 };

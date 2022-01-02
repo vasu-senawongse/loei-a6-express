@@ -130,15 +130,4 @@ module.exports = {
       console.log(error);
     }
   },
-
-  async getUsers(req, res) {
-    try {
-      const result = await sql.query(
-        "SELECT * FROM users"
-      );
-      res.json(result);
-    } catch (error) {
-      console.log(error);
-    }
-  },
 };
