@@ -30,4 +30,21 @@ module.exports = {
       console.log(error);
     }
   },
+
+  async doneTask(req, res) {
+    try {
+
+      const payload = req.body;
+
+      const contact = await sql.query(
+        "UPDATE messages SET status = 'DONE' WHERE id = ?",
+        [
+          payload.id
+        ]
+      );
+      res.json(contact);
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };
