@@ -110,4 +110,22 @@ module.exports = {
       console.log(error);
     }
   },
+
+  async createOrganization(req, res) {
+    try {
+      const payload = req.body;
+      const result = await sql.query(
+        "INSERT INTO organizations (id,org,img,url,type) VALUES (0,?,?,?,?)",
+        [
+          payload.org,
+          payload.img,
+          payload.url,
+          payload.type,
+        ]
+      );
+      res.json(result);
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };
