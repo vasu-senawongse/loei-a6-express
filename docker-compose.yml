@@ -21,8 +21,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: exp1500
       MYSQL_DATABASE: loeia6_db
-      MYSQL_USER: root
-      MYSQL_PASSWORD: exp1500
     ports:
       - "3306:3306"
     volumes:
