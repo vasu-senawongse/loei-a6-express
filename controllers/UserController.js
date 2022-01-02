@@ -34,7 +34,7 @@ module.exports = {
           'UPDATE users SET username = ?, password = ?, display = ?, role = ? WHERE id = ?',
           [
             payload.username,
-            password.length,
+            password,
             payload.display,
             payload.role,
             payload.id,
