@@ -80,4 +80,15 @@ module.exports = {
       console.log(error);
     }
   },
+
+  async getOrganizations(req, res) {
+    try {
+      const result = await sql.query(
+        "SELECT * FROM organizations"
+      );
+      res.json(result);
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };

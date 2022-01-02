@@ -32,6 +32,7 @@ module.exports = (app) => {
   app.get("/get-top-attraction", BaseController.getTopAttraction);
   app.get("/get-top-search", BaseController.getTopSearch);
   app.get("/get-top-search-date", BaseController.getTopSearchDate);
+  app.get("/get-organizations", BaseController.getOrganizations);
   app.post("/upload", upload.array("file"), (req, res) => {
     try {
       res.send(req.file);
