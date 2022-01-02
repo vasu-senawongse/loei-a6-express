@@ -19,8 +19,8 @@ services:
     container_name: exp-mysql-db
     restart: always
     environment:
-      MYSQL_PASSWORD: exp1500
-      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: exp1500
+      MYSQL_DATABASE: loeia6_db
     ports:
       - "3306:3306"
     volumes:
