@@ -472,7 +472,7 @@ module.exports = {
     try {
       const payload = req.body;
       const result = await sql.query(
-        "UPDATE attractions SET name = ?, category = ?, district = ?, subDistrict = ?, lat = ?, lon = ?, physical = ?, history = ?, nature = ?, culture = ?, attraction = ?, accessibility = ?, accommodation = ?, activities = ?, amenities = ?, month = ?, updatedAt = ?, org = ?, phone = ?, register = ?, geo = ?, eco = ?, biodiversity = ?, myth = ?, festival = ?, creativetourism = ?, storytelling = ?, etc = ? WHERE id = ?",
+        "UPDATE attractions SET name = ?, category = ?, district = ?, subDistrict = ?, lat = ?, lon = ?, physical = ?, history = ?, nature = ?, culture = ?, attraction = ?, accessibility = ?, accommodation = ?, activities = ?, amenities = ?, amenitiesForAll = ?, month = ?, updatedAt = ?, org = ?, phone = ?, register = ?, geo = ?, eco = ?, biodiversity = ?, myth = ?, festival = ?, creativetourism = ?, storytelling = ?, etc = ? WHERE id = ?",
         [
           payload.name,
           payload.category,
@@ -489,6 +489,7 @@ module.exports = {
           payload.accommodation,
           payload.activities,
           payload.amenities,
+          payload.amenitiesForAll,
           payload.month,
           payload.updatedAt,
           payload.org,
