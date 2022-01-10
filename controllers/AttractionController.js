@@ -277,6 +277,7 @@ module.exports = {
   async deleteOptions(req, res) {
     try {
       const payload = req.body;
+      console.log('Checkpoint1 => ', payload)
       if (payload.type == "TYPE") {
         const type = await sql.query(
           'SELECT * FROM attraction_types WHERE id = ?',
@@ -338,7 +339,7 @@ module.exports = {
         );
         res.send('DELETED AMENITIES AND UPDATED ' + attractions.length + ' ATTRACTIONS');
       } else if (payload.type == "AMENFA") {
-        console.log(payload)
+        console.log('Checkpoint2 => ', payload)
         const amen = await sql.query(
           'SELECT * FROM amenities WHERE id = ?',
           [payload.id]
