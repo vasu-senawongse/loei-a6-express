@@ -130,4 +130,53 @@ module.exports = {
       console.log(error);
     }
   },
+
+  async getProducts(req, res) {
+    try {
+      const result = await sql.query(
+        "SELECT * FROM products"
+      );
+      res.json(result);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  async createProduct(req, res) {
+    try {
+      const payload = req.body;
+      const result = await sql.query(
+        "INSERT INTO organizations (id,name,img,description,shop,phone) VALUES (0,?,?,?,?,?)",
+        [
+          payload.name,
+          payload.img,
+          payload.description,
+          payload.shop,
+          payload.phone,
+        ]
+      );
+      res.json(result);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  async deleteProduct(req, res) {
+    try {
+      const payload = req.body;
+      const product = await sql.query(
+        "SELECT * FROM products WHERE id = ?", [
+        payload.id,
+      ]);
+      if (fs.existsSync("public/images/products/" + product[0].img)) {
+        fs.unlinkSync("public/images/products/" + product[0].img);
+      }
+      const result = await sql.query("DELETE FROM products WHERE id = ?", [
+        payload.id,
+      ]);
+      res.json(result);
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };

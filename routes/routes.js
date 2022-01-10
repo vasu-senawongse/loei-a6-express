@@ -8,6 +8,7 @@ const Contract = require("./routes/contacts");
 const Auth = require("./routes/auth");
 const Organization = require("./routes/organizations");
 const User = require("./routes/users");
+const Product = require("./routes/products");
 const multer = require("multer");
 const fs = require("fs");
 
@@ -47,5 +48,6 @@ module.exports = (app) => {
   Restaurant(app);
   Contract(app);
   Organization(app);
-  User(app)
+  User(app);
+  Product(app);
 };
