@@ -116,11 +116,20 @@ module.exports = {
         res.json(result);
       } else if (payload.type == "AMEN") {
         result = await sql.query(
-          "INSERT INTO amenities (id,name) VALUES (0,?)",
+          "INSERT INTO amenities (id,name,type) VALUES (0,?,1)",
           [payload.name]
         );
         res.json(result);
-      } else if (payload.type == "ACT") {
+      }
+      else if (payload.type == "AMENFA") {
+        result = await sql.query(
+          "INSERT INTO amenities (id,name,type) VALUES (0,?,2)",
+          [payload.name]
+        );
+        res.json(result);
+      }
+
+      else if (payload.type == "ACT") {
         result = await sql.query(
           "INSERT INTO activities (id,name) VALUES (0,?)",
           [payload.name]
