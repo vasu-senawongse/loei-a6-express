@@ -353,7 +353,7 @@ module.exports = {
 
         for (var i = 0; i < attractions.length; i++) {
           var array = attractions[i].amenitiesForAll.split(',')
-          const index = array.indexOf(type[0].name)
+          const index = array.indexOf(amen[0].name)
           var arr = array.splice(index, 1);
           var amenity = arr.join()
           await sql.query(
