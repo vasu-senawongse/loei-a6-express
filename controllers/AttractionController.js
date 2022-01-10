@@ -245,7 +245,7 @@ module.exports = {
         );
 
         const attractions = await sql.query(
-          'SELECT * FROM attractions WHERE amenities LIKE "%"?"%"',
+          'SELECT * FROM attractions WHERE activities LIKE "%"?"%"',
           [act[0].name]
         );
 
