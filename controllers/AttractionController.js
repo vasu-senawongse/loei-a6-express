@@ -356,9 +356,7 @@ module.exports = {
           console.log(array)
           const index = array.indexOf(amen[0].name)
           console.log(index)
-          var arr = array.splice(index, 1);
-          console.log(arr)
-          var amenity = arr.filter(i => i != '').join()
+          var amenity = array.filter((value, i) => value != '' && i != index).join()
           console.log(amenity)
           await sql.query(
             "UPDATE attractions SET amenitiesForAll = ? WHERE id = ?",
