@@ -353,9 +353,13 @@ module.exports = {
 
         for (var i = 0; i < attractions.length; i++) {
           var array = attractions[i].amenitiesForAll.split(',')
+          console.log(array)
           const index = array.indexOf(amen[0].name)
+          console.log(index)
           var arr = array.splice(index, 1);
+          console.log(arr)
           var amenity = arr.filter(i => i != '').join()
+          console.log(amenity)
           await sql.query(
             "UPDATE attractions SET amenitiesForAll = ? WHERE id = ?",
             [
