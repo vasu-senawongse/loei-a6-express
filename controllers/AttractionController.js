@@ -291,8 +291,7 @@ module.exports = {
         for (var i = 0; i < attractions.length; i++) {
           var array = attractions[i].category.split(',')
           const index = array.indexOf(type[0].name)
-          var arr = array.splice(index, 1);
-          var category = arr.filter(i => i != '').join()
+          var category = array.filter((value, i) => value != '' && i != index).join()
           await sql.query(
             "UPDATE attractions SET category = ? WHERE id = ?",
             [
@@ -321,8 +320,7 @@ module.exports = {
         for (var i = 0; i < attractions.length; i++) {
           var array = attractions[i].amenities.split(',')
           const index = array.indexOf(amen[0].name)
-          var arr = array.splice(index, 1);
-          var amenity = arr.filter(i => i != '').join()
+          var amenity = array.filter((value, i) => value != '' && i != index).join()
           await sql.query(
             "UPDATE attractions SET amenities = ? WHERE id = ?",
             [
@@ -353,11 +351,8 @@ module.exports = {
 
         for (var i = 0; i < attractions.length; i++) {
           var array = attractions[i].amenitiesForAll.split(',')
-          console.log(array)
           const index = array.indexOf(amen[0].name)
-          console.log(index)
           var amenity = array.filter((value, i) => value != '' && i != index).join()
-          console.log(amenity)
           await sql.query(
             "UPDATE attractions SET amenitiesForAll = ? WHERE id = ?",
             [
@@ -388,8 +383,7 @@ module.exports = {
         for (var i = 0; i < attractions.length; i++) {
           var array = attractions[i].activities.split(',')
           const index = array.indexOf(act[0].name)
-          var arr = array.splice(index, 1);
-          var activity = arr.filter(i => i != '').join()
+          var activity = array.filter((value, i) => value != '' && i != index).join()
           await sql.query(
             "UPDATE attractions SET activities = ? WHERE id = ?",
             [
