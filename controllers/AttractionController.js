@@ -336,9 +336,9 @@ module.exports = {
           "DELETE FROM amenities WHERE id = ?",
           [payload.id]
         );
-        res.json(result);
+        res.send('DELETED AMENITIES AND UPDATED ' + attractions.length + ' ATTRACTIONS');
       } else if (payload.type == "AMENFA") {
-
+        console.log(payload)
         const amen = await sql.query(
           'SELECT * FROM amenities WHERE id = ?',
           [payload.id]
@@ -367,7 +367,7 @@ module.exports = {
           "DELETE FROM amenities WHERE id = ?",
           [payload.id]
         );
-        res.json(result);
+        res.send('DELETED AMENITIES FOR ALL AND UPDATED ' + attractions.length + ' ATTRACTIONS');
       } else if (payload.type == "ACT") {
         const act = await sql.query(
           'SELECT * FROM activities WHERE id = ?',
@@ -397,7 +397,7 @@ module.exports = {
           "DELETE FROM activities WHERE id = ?",
           [payload.id]
         );
-        res.send('Success');
+        res.send('DELETED ACTIVITIES AND UPDATED ' + attractions.length + ' ATTRACTIONS');
       }
     } catch (error) {
       console.log(error);
