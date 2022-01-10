@@ -277,7 +277,6 @@ module.exports = {
   async deleteOptions(req, res) {
     try {
       const payload = req.body;
-      console.log('Checkpoint1 => ', payload)
       if (payload.type == "TYPE") {
         const type = await sql.query(
           'SELECT * FROM attraction_types WHERE id = ?',
@@ -337,9 +336,11 @@ module.exports = {
           "DELETE FROM amenities WHERE id = ?",
           [payload.id]
         );
-        res.send('DELETED AMENITIES AND UPDATED ' + attractions.length + ' ATTRACTIONS');
-      } else if (payload.type == "AMENFA") {
-        console.log('Checkpoint2 => ', payload)
+        res.json(result);
+      }
+
+      else if (payload.type == "AMENFA") {
+
         const amen = await sql.query(
           'SELECT * FROM amenities WHERE id = ?',
           [payload.id]
@@ -352,11 +353,11 @@ module.exports = {
 
         for (var i = 0; i < attractions.length; i++) {
           var array = attractions[i].amenitiesForAll.split(',')
-          const index = array.indexOf(amen[0].name)
+          const index = array.indexOf(type[0].name)
           var arr = array.splice(index, 1);
           var amenity = arr.join()
           await sql.query(
-            "UPDATE attractions SET amenitiesForAll = ? WHERE id = ?",
+            "UPDATE attractions SET amenities = ? WHERE id = ?",
             [
               amenity,
               attractions[i].id,
@@ -368,8 +369,10 @@ module.exports = {
           "DELETE FROM amenities WHERE id = ?",
           [payload.id]
         );
-        res.send('DELETED AMENITIES FOR ALL AND UPDATED ' + attractions.length + ' ATTRACTIONS');
-      } else if (payload.type == "ACT") {
+        res.json(result);
+      }
+
+      else if (payload.type == "ACT") {
         const act = await sql.query(
           'SELECT * FROM activities WHERE id = ?',
           [payload.id]
@@ -398,7 +401,7 @@ module.exports = {
           "DELETE FROM activities WHERE id = ?",
           [payload.id]
         );
-        res.send('DELETED ACTIVITIES AND UPDATED ' + attractions.length + ' ATTRACTIONS');
+        res.send('Success');
       }
     } catch (error) {
       console.log(error);
