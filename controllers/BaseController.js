@@ -146,7 +146,7 @@ module.exports = {
     try {
       const payload = req.body;
       const result = await sql.query(
-        "INSERT INTO organizations (id,name,img,description,shop,phone) VALUES (0,?,?,?,?,?)",
+        "INSERT INTO products (id,name,img,description,shop,phone) VALUES (0,?,?,?,?,?)",
         [
           payload.name,
           payload.img,
