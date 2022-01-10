@@ -360,7 +360,7 @@ module.exports = {
           var amenity = arr.filter(i => i != '').join()
           console.log(amenity)
           await sql.query(
-            "UPDATE attractions SET amenities = ? WHERE id = ?",
+            "UPDATE attractions SET amenitiesForAll = ? WHERE id = ?",
             [
               amenity,
               attractions[i].id,
