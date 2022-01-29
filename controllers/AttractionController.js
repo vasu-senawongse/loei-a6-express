@@ -86,7 +86,7 @@ module.exports = {
   async getAttractionByName(req, res) {
     try {
       var { name } = req.params;
-      name = name.replace("-", " ");
+      name = name.replaceAll("-", " ");
       const result = await sql.query(
         "SELECT * FROM attractions WHERE name = ?",
         [name]
