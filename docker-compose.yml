@@ -12,6 +12,7 @@ services:
       - "5000:5000"
     volumes:
       - .:/app
+      - ./node_modules:/app/node_modules
     command: nodemon --watch . --exec "node" index.js
 
   db:
