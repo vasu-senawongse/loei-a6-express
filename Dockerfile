@@ -1,7 +1,6 @@
 FROM node:10-alpine
 USER root
 
-RUN chown -R node:node ./node_modules
 RUN npm config set unsafe-perm true
 RUN npm install -g nodemon
 RUN mkdir -p /home/node/app/node_modules && chown -R root:root /home/node/app && mkdir -p /app/uploads
