@@ -26,7 +26,7 @@ module.exports = {
       const result = await sql.query(
         "SELECT * FROM attractions ORDER BY id DESC LIMIT 1"
       );
-      let id = result[0].id || 0;
+      let id = result[0]?.id || 0;
       res.json(id + 1);
     } catch (error) {
       console.log(error);
