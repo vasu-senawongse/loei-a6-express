@@ -26,7 +26,8 @@ module.exports = {
       const result = await sql.query(
         "SELECT * FROM attractions ORDER BY id DESC LIMIT 1"
       );
-      res.json(result[0].id + 1);
+      let id = result[0].id || 0;
+      res.json(id + 1);
     } catch (error) {
       console.log(error);
     }
@@ -120,16 +121,13 @@ module.exports = {
           [payload.name]
         );
         res.json(result);
-      }
-      else if (payload.type == "AMENFA") {
+      } else if (payload.type == "AMENFA") {
         result = await sql.query(
           "INSERT INTO amenities (id,name,type) VALUES (0,?,2)",
           [payload.name]
         );
         res.json(result);
-      }
-
-      else if (payload.type == "ACT") {
+      } else if (payload.type == "ACT") {
         result = await sql.query(
           "INSERT INTO activities (id,name) VALUES (0,?)",
           [payload.name]
@@ -146,7 +144,7 @@ module.exports = {
       const payload = req.body;
       if (payload.type == "TYPE") {
         const type = await sql.query(
-          'SELECT * FROM attraction_types WHERE id = ?',
+          "SELECT * FROM attraction_types WHERE id = ?",
           [payload.id]
         );
 
@@ -156,29 +154,26 @@ module.exports = {
         );
 
         for (var i = 0; i < attractions.length; i++) {
-          var array = attractions[i].category.split(',')
-          const index = array.indexOf(type[0].name)
-          array[index] = payload.name
-          var category = array.filter(i => i != '').join()
-          await sql.query(
-            "UPDATE attractions SET category = ? WHERE id = ?",
-            [
-              category,
-              attractions[i].id,
-            ]
-          );
+          var array = attractions[i].category.split(",");
+          const index = array.indexOf(type[0].name);
+          array[index] = payload.name;
+          var category = array.filter((i) => i != "").join();
+          await sql.query("UPDATE attractions SET category = ? WHERE id = ?", [
+            category,
+            attractions[i].id,
+          ]);
         }
         result = await sql.query(
           "UPDATE attraction_types SET name = ? WHERE id = ?",
           [payload.name, payload.id]
         );
-        res.send('DELETED TYPE AND UPDATED ' + attractions.length + ' ATTRACTIONS');
-      } else if (payload.type == "AMEN") {
-
-        const amen = await sql.query(
-          'SELECT * FROM amenities WHERE id = ?',
-          [payload.id]
+        res.send(
+          "DELETED TYPE AND UPDATED " + attractions.length + " ATTRACTIONS"
         );
+      } else if (payload.type == "AMEN") {
+        const amen = await sql.query("SELECT * FROM amenities WHERE id = ?", [
+          payload.id,
+        ]);
 
         const attractions = await sql.query(
           'SELECT * FROM attractions WHERE amenities LIKE "%"?"%"',
@@ -186,31 +181,25 @@ module.exports = {
         );
 
         for (var i = 0; i < attractions.length; i++) {
-          var array = attractions[i].amenities.split(',')
-          const index = array.indexOf(amen[0].name)
-          array[index] = payload.name
-          var amenity = array.filter(i => i != '').join()
-          await sql.query(
-            "UPDATE attractions SET amenities = ? WHERE id = ?",
-            [
-              amenity,
-              attractions[i].id,
-            ]
-          );
+          var array = attractions[i].amenities.split(",");
+          const index = array.indexOf(amen[0].name);
+          array[index] = payload.name;
+          var amenity = array.filter((i) => i != "").join();
+          await sql.query("UPDATE attractions SET amenities = ? WHERE id = ?", [
+            amenity,
+            attractions[i].id,
+          ]);
         }
 
-        result = await sql.query(
-          "UPDATE amenities SET name = ? WHERE id = ?",
-          [payload.name, payload.id]
-        );
+        result = await sql.query("UPDATE amenities SET name = ? WHERE id = ?", [
+          payload.name,
+          payload.id,
+        ]);
         res.json(result);
-      }
-      else if (payload.type == "AMENFA") {
-
-        const amen = await sql.query(
-          'SELECT * FROM amenities WHERE id = ?',
-          [payload.id]
-        );
+      } else if (payload.type == "AMENFA") {
+        const amen = await sql.query("SELECT * FROM amenities WHERE id = ?", [
+          payload.id,
+        ]);
 
         const attractions = await sql.query(
           'SELECT * FROM attractions WHERE amenitiesForAll LIKE "%"?"%"',
@@ -218,31 +207,25 @@ module.exports = {
         );
 
         for (var i = 0; i < attractions.length; i++) {
-          var array = attractions[i].amenitiesForAll.split(',')
-          const index = array.indexOf(amen[0].name)
-          array[index] = payload.name
-          var amenity = array.filter(i => i != '').join()
+          var array = attractions[i].amenitiesForAll.split(",");
+          const index = array.indexOf(amen[0].name);
+          array[index] = payload.name;
+          var amenity = array.filter((i) => i != "").join();
           await sql.query(
             "UPDATE attractions SET amenitiesForAll = ? WHERE id = ?",
-            [
-              amenity,
-              attractions[i].id,
-            ]
+            [amenity, attractions[i].id]
           );
         }
 
-        result = await sql.query(
-          "UPDATE amenities SET name = ? WHERE id = ?",
-          [payload.name, payload.id]
-        );
+        result = await sql.query("UPDATE amenities SET name = ? WHERE id = ?", [
+          payload.name,
+          payload.id,
+        ]);
         res.json(result);
-      }
-
-      else if (payload.type == "ACT") {
-        const act = await sql.query(
-          'SELECT * FROM activities WHERE id = ?',
-          [payload.id]
-        );
+      } else if (payload.type == "ACT") {
+        const act = await sql.query("SELECT * FROM activities WHERE id = ?", [
+          payload.id,
+        ]);
 
         const attractions = await sql.query(
           'SELECT * FROM attractions WHERE activities LIKE "%"?"%"',
@@ -250,16 +233,13 @@ module.exports = {
         );
 
         for (var i = 0; i < attractions.length; i++) {
-          var array = attractions[i].activities.split(',')
-          const index = array.indexOf(act[0].name)
-          array[index] = payload.name
-          var activity = array.filter(i => i != '').join()
+          var array = attractions[i].activities.split(",");
+          const index = array.indexOf(act[0].name);
+          array[index] = payload.name;
+          var activity = array.filter((i) => i != "").join();
           await sql.query(
             "UPDATE attractions SET activities = ? WHERE id = ?",
-            [
-              activity,
-              attractions[i].id,
-            ]
+            [activity, attractions[i].id]
           );
         }
 
@@ -267,7 +247,7 @@ module.exports = {
           "UPDATE activities SET name = ? WHERE id = ?",
           [payload.name, payload.id]
         );
-        res.send('Success');
+        res.send("Success");
       }
     } catch (error) {
       console.log(error);
@@ -279,7 +259,7 @@ module.exports = {
       const payload = req.body;
       if (payload.type == "TYPE") {
         const type = await sql.query(
-          'SELECT * FROM attraction_types WHERE id = ?',
+          "SELECT * FROM attraction_types WHERE id = ?",
           [payload.id]
         );
 
@@ -289,28 +269,26 @@ module.exports = {
         );
 
         for (var i = 0; i < attractions.length; i++) {
-          var array = attractions[i].category.split(',')
-          const index = array.indexOf(type[0].name)
-          var category = array.filter((value, i) => value != '' && i != index).join()
-          await sql.query(
-            "UPDATE attractions SET category = ? WHERE id = ?",
-            [
-              category,
-              attractions[i].id,
-            ]
-          );
+          var array = attractions[i].category.split(",");
+          const index = array.indexOf(type[0].name);
+          var category = array
+            .filter((value, i) => value != "" && i != index)
+            .join();
+          await sql.query("UPDATE attractions SET category = ? WHERE id = ?", [
+            category,
+            attractions[i].id,
+          ]);
         }
-        result = await sql.query(
-          "DELETE FROM attraction_types WHERE id = ?",
-          [payload.id]
+        result = await sql.query("DELETE FROM attraction_types WHERE id = ?", [
+          payload.id,
+        ]);
+        res.send(
+          "DELETED TYPE AND UPDATED " + attractions.length + " ATTRACTIONS"
         );
-        res.send('DELETED TYPE AND UPDATED ' + attractions.length + ' ATTRACTIONS');
       } else if (payload.type == "AMEN") {
-
-        const amen = await sql.query(
-          'SELECT * FROM amenities WHERE id = ?',
-          [payload.id]
-        );
+        const amen = await sql.query("SELECT * FROM amenities WHERE id = ?", [
+          payload.id,
+        ]);
 
         const attractions = await sql.query(
           'SELECT * FROM attractions WHERE amenities LIKE "%"?"%"',
@@ -318,31 +296,25 @@ module.exports = {
         );
 
         for (var i = 0; i < attractions.length; i++) {
-          var array = attractions[i].amenities.split(',')
-          const index = array.indexOf(amen[0].name)
-          var amenity = array.filter((value, i) => value != '' && i != index).join()
-          await sql.query(
-            "UPDATE attractions SET amenities = ? WHERE id = ?",
-            [
-              amenity,
-              attractions[i].id,
-            ]
-          );
+          var array = attractions[i].amenities.split(",");
+          const index = array.indexOf(amen[0].name);
+          var amenity = array
+            .filter((value, i) => value != "" && i != index)
+            .join();
+          await sql.query("UPDATE attractions SET amenities = ? WHERE id = ?", [
+            amenity,
+            attractions[i].id,
+          ]);
         }
 
-        result = await sql.query(
-          "DELETE FROM amenities WHERE id = ?",
-          [payload.id]
-        );
+        result = await sql.query("DELETE FROM amenities WHERE id = ?", [
+          payload.id,
+        ]);
         res.json(result);
-      }
-
-      else if (payload.type == "AMENFA") {
-
-        const amen = await sql.query(
-          'SELECT * FROM amenities WHERE id = ?',
-          [payload.id]
-        );
+      } else if (payload.type == "AMENFA") {
+        const amen = await sql.query("SELECT * FROM amenities WHERE id = ?", [
+          payload.id,
+        ]);
 
         const attractions = await sql.query(
           'SELECT * FROM attractions WHERE amenitiesForAll LIKE "%"?"%"',
@@ -350,30 +322,25 @@ module.exports = {
         );
 
         for (var i = 0; i < attractions.length; i++) {
-          var array = attractions[i].amenitiesForAll.split(',')
-          const index = array.indexOf(amen[0].name)
-          var amenity = array.filter((value, i) => value != '' && i != index).join()
+          var array = attractions[i].amenitiesForAll.split(",");
+          const index = array.indexOf(amen[0].name);
+          var amenity = array
+            .filter((value, i) => value != "" && i != index)
+            .join();
           await sql.query(
             "UPDATE attractions SET amenitiesForAll = ? WHERE id = ?",
-            [
-              amenity,
-              attractions[i].id,
-            ]
+            [amenity, attractions[i].id]
           );
         }
 
-        result = await sql.query(
-          "DELETE FROM amenities WHERE id = ?",
-          [payload.id]
-        );
+        result = await sql.query("DELETE FROM amenities WHERE id = ?", [
+          payload.id,
+        ]);
         res.json(result);
-      }
-
-      else if (payload.type == "ACT") {
-        const act = await sql.query(
-          'SELECT * FROM activities WHERE id = ?',
-          [payload.id]
-        );
+      } else if (payload.type == "ACT") {
+        const act = await sql.query("SELECT * FROM activities WHERE id = ?", [
+          payload.id,
+        ]);
 
         const attractions = await sql.query(
           'SELECT * FROM attractions WHERE activities LIKE "%"?"%"',
@@ -381,23 +348,21 @@ module.exports = {
         );
 
         for (var i = 0; i < attractions.length; i++) {
-          var array = attractions[i].activities.split(',')
-          const index = array.indexOf(act[0].name)
-          var activity = array.filter((value, i) => value != '' && i != index).join()
+          var array = attractions[i].activities.split(",");
+          const index = array.indexOf(act[0].name);
+          var activity = array
+            .filter((value, i) => value != "" && i != index)
+            .join();
           await sql.query(
             "UPDATE attractions SET activities = ? WHERE id = ?",
-            [
-              activity,
-              attractions[i].id,
-            ]
+            [activity, attractions[i].id]
           );
         }
 
-        result = await sql.query(
-          "DELETE FROM activities WHERE id = ?",
-          [payload.id]
-        );
-        res.send('Success');
+        result = await sql.query("DELETE FROM activities WHERE id = ?", [
+          payload.id,
+        ]);
+        res.send("Success");
       }
     } catch (error) {
       console.log(error);
