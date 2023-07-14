@@ -545,7 +545,9 @@ module.exports = {
       await sql.query("DELETE FROM galleries WHERE attraction = ?", [
         payload.id,
       ]);
-      fs.rmSync("public/images/attractions/" + payload.id, { recursive: true });
+      fs.unlinkSync("public/images/attractions/" + payload.id, {
+        recursive: true,
+      });
       res.json(result);
     } catch (error) {
       console.log(error);
